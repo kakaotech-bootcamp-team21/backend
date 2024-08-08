@@ -37,26 +37,14 @@ jobs:
         id: extract-jar-name
         run: echo "JAR_NAME=$(./gradlew -q printJarInfo)" >> $GITHUB_ENV
 
-      - name: Cache Docker layers
-        uses: actions/cache@v2
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-docker-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-docker-
-      
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
       - name: Build Docker Image
         run: |
-          docker buildx create --use --driver-opt env.BUILDKIT_PROGRESS=plain --driver-opt network=host
           docker build \
             --build-arg JAR_FILE=$JAR_NAME \
-            --cache-from=type=local,src=/tmp/.buildx-cache \
-            --cache-to=type=local,dest=/tmp/.buildx-cache-new \
             -t hanyohan/spring-backend-image:latest .
-          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
       - name: Push Docker Image to Docker Hub
         run: docker push hanyohan/spring-backend-image:latest
