@@ -2,7 +2,7 @@ spring:
   application:
     name: coverletter-spring-project
   datasource:
-#    url: jdbc:h2:tcp://localhost/~/test # 웹 UI로 데이터 베이스 다루고 싶으면 이거로 설정하고, localhost:8082 로 접속 GOGO.
+#    url: jdbc:h2:tcp://localhost/~/test # 웹 UI로 데이터 베이스 다루고 싶으면 이거로 설정하고, localhost:8082 로 접속 GOGOGO.
     url: jdbc:h2:mem:test # 커밋 할 때는 이거로 설정.
     username: sa
     password:
