@@ -1,11 +1,16 @@
 package kakaotech_bootcamp.team_21.coverletter_spring_project.controller;
 
+import kakaotech_bootcamp.team_21.coverletter_spring_project.service.HelloWorldService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class HelloWorldController {
+
+    @Autowired
+    private HelloWorldService helloWorldService;
 
     @GetMapping("/")
     public String home() {
@@ -16,6 +21,7 @@ public class HelloWorldController {
     @GetMapping(path="/hello-world")
     @ResponseBody//
     public String helloworld() {
-        return "Hello World!!!";//Test API
+        helloWorldService.helloTest();
+        return "Hello World!?!?";//Test API
     }
 }
