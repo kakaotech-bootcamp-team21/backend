@@ -1,13 +1,13 @@
 name: DEV BRANCH TEST
 
 on:
-  push:
+#  push:
     # branches:
     #   - dev
   pull_request:
     branches:
       - dev
-
+# -
 jobs:
   build:
 
