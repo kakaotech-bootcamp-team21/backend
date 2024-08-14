@@ -22,6 +22,6 @@ public class HelloWorldController {
     @ResponseBody//
     public String helloworld() {
         helloWorldService.helloTest();
-        return "Hello World!?!?";//Test API
+        return "Hello World Welcome!";//Test API
     }
 }
