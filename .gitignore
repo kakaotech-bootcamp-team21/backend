@@ -48,6 +48,3 @@ Temporary Items
 # Ignore everything in .idea except code styles and run configurations
 !.idea/codeStyles
 !.idea/runConfigurations
-
-# Help documentation
-HELP.md
