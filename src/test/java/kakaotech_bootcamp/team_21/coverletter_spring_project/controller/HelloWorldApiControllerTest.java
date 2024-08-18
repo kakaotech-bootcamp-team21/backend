@@ -1,18 +1,24 @@
 package kakaotech_bootcamp.team_21.coverletter_spring_project.controller;
 
+import kakaotech_bootcamp.team_21.coverletter_spring_project.domain.User;
+import kakaotech_bootcamp.team_21.coverletter_spring_project.repository.UserRepository;
 import kakaotech_bootcamp.team_21.coverletter_spring_project.service.HelloWorldService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class HelloWorldControllerTest {
+class HelloWorldApiControllerTest {
 
     @Autowired
     private HelloWorldService helloWorldService;
+    @Autowired
+    private UserRepository userRepository;
 
     @Test
     public void HelloWorldTest() throws Exception {

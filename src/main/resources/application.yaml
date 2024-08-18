@@ -2,18 +2,23 @@ spring:
   application:
     name: coverletter-spring-project
   datasource:
-#    url: jdbc:h2:tcp://localhost/~/test # 웹 UI로 데이터 베이스 다루고 싶으면 이거로 설정하고, localhost:8082 로 접속 GOGOGO.
-    url: jdbc:h2:mem:test # 커밋 할 때는 이거로 설정.
+#    url: jdbc:h2:tcp://localhost/~/test # local h2 db에 접근 할 때
+    url: jdbc:h2:mem:test # 기본 in-memory h2 db.
     username: sa
     password:
     driver-class-name: org.h2.Driver
   jpa:
     hibernate:
       ddl-auto: create # 이 옵션은 애플리케이션 실행 시점에 테이블을 drop 하고, 다시 생성한다.
+      use_sql_comments: true # 실행되는 JPQL을 볼 수 있다.
     properties:
       hibernate:
-        # show_sql: true # `System.out` 에 하이버네이트 실행 SQL을 남긴다.
+#        show_sql: true # `System.out` 에 하이버네이트 실행 SQL을 남긴다.( 모든 로그 출력은 가급적 로거를 통해 남겨야 한다. )
         format_sql: true
+  h2:
+    console:
+      enabled: true  # H2 콘솔을 활성화(/h2-console 로 접근 가능.)
+
 logging.level:
   org.hibernate.SQL: debug # logger를 통해 하이버네이트 실행 SQL을 남긴다.
   org.hibernate.orm.jdbc.bind: trace

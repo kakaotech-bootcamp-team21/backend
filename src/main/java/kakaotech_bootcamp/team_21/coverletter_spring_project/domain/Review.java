@@ -2,10 +2,13 @@ package kakaotech_bootcamp.team_21.coverletter_spring_project.domain;
 
 import jakarta.persistence.*;
 import kakaotech_bootcamp.team_21.coverletter_spring_project.domain.enums.ReviewType;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Getter @Setter
+@NoArgsConstructor(access= AccessLevel.PROTECTED)
 public class Review {
 
     @Id @GeneratedValue
@@ -14,17 +17,20 @@ public class Review {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "req_id")
-    private User req_user;
+    private User reqUser;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "res_id")
-    private User res_user;
+    private User resUser;
 
     private LocalDateTime datetime;
 
-    @Lob
-    private String question;
-
     @Enumerated(EnumType.STRING)
     private ReviewType type;
+
+    // -- 생성자 -- //
+    public Review(LocalDateTime datetime, ReviewType type) {
+        this.datetime = datetime;
+        this.type = type;
+    }
 }

@@ -13,5 +13,6 @@ public class HelloWorldService {
         logger.info("This is a info message");
         logger.debug("This is a debug message");
         logger.error("This is a error message");
+        
     }
 }
