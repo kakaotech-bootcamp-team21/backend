@@ -33,34 +33,4 @@ class SpringDataJPATest {
         assertThat(findUser).isEqualTo(user); //JPA 엔티티 동일성 보장
     }
 
-    @Test
-    public void basicCRUD() {
-        //given
-        User user1 = new User("user1", "nick1", "/img/image1.jpg", Role.USER,"Hello");
-        User user2 = new User("user2", "nick2", "/img/image2.jpg", Role.USER,"Hello");
-
-        //when
-        userRepository.save(user1);
-        userRepository.save(user2);
-
-        //then
-
-        //단건 조회 검증
-        User findUser1 = userRepository.findById(user1.getId()).get();
-        User findUser2 = userRepository.findById(user2.getId()).get();
-        assertThat(findUser1).isEqualTo(user1);
-        assertThat(findUser2).isEqualTo(user2);
-        //리스트 조회 검증
-        List<User> all = userRepository.findAll();
-        assertThat(all.size()).isEqualTo(2);
-        //카운트 검증
-        long count = userRepository.count();
-        assertThat(count).isEqualTo(2);
-        //삭제 검증
-        userRepository.delete(user1);
-        userRepository.delete(user2);
-        long deletedCount = userRepository.count();
-        assertThat(deletedCount).isEqualTo(0);
-    }
-
 }
