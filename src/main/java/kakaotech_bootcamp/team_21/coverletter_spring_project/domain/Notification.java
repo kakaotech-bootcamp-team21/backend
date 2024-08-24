@@ -16,8 +16,12 @@ public class Notification {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id",nullable = false)
     private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="chat_room_id")
+    private ChattingRoom room;
 
     private LocalDateTime datetime;
 
@@ -35,10 +39,12 @@ public class Notification {
         this.isRead = isRead;
         this.type = type;
     }
-
     // -- 연관 관계 메서드 -- //
     public void addUser(User user) {
         this.user=user;
+    }
+    public void addChattingRoom(ChattingRoom room) {
+        this.room=room;
     }
     // -- 비즈니스 로직 -- //
 }

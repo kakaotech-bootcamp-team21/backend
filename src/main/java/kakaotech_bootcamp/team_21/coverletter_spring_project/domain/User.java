@@ -14,6 +14,10 @@ public class User {
     @Column(name="user_id")
     private Long id;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "special_id")
+    private Specialist specialist;
+
     private String username;
 
     private String nickname;
@@ -25,15 +29,26 @@ public class User {
 
     private String profile; // 간단한 자기소개.
 
+    @Column(nullable = false,unique = true)
+    private String email;
+
+    @Column(nullable = false)
+    private String password;
+
     // -- 생성자 -- //
-    public User(String username, String nickname, String img, Role role, String profile) {
+    public User(String username, String nickname, String img, Role role, String profile, String email, String password) {
         this.username = username;
         this.nickname = nickname;
         this.img = img;
         this.role = role;
         this.profile = profile;
+        this.email = email;
+        this.password = password;
     }
-
+    // -- 연관 관계 메서드 -- //
+    public void addSpecialist(Specialist specialist) {
+        this.specialist=specialist;
+    }
     // -- 비즈니스 로직 -- //
 
 }

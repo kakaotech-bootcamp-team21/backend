@@ -9,4 +9,5 @@ public class HomeController {
     @GetMapping("/")
     public String home() { return "index";} //기본 홈 페이지
 
+
 }
