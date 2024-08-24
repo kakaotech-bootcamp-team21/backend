@@ -22,10 +22,10 @@
   - dev 브랜치 : 개인이 개발한 브랜치를 PR 할 때 사용하는 브랜치 (보호된 브랜치. 즉, PR을 통해서만 머지 가능.)
     - dev 브랜치에 PR이 들어오면 애플리케이션의 테스트 케이스를 수행하고 성공 시에만 squash merge를 할 수 있다.
   - main 브랜치 : 개발이 어느 정도 되었을 시 배포를 위한 브랜치로, 커밋을 수행하면 자동으로 EC2 Instance로 앱이 배포되게 된다. (제약 브랜치X. 조심)
-    - ec2 url : ec2-43-200-211-225.ap-northeast-2.compute.amazonaws.com:8080
+    - ec2 url : http://ec2-43-200-211-225.ap-northeast-2.compute.amazonaws.com:8080
 - 운영
   - release : 개발용 배포를 통해 잘 되는 것으로 확인 된다면 운영 서버에 반영 할 때 이용. 
-    - ec2 url: ec2-43-200-211-225.ap-northeast-2.compute.amazonaws.com:8088 (예정)
+    - ec2 url: http://ec2-43-200-211-225.ap-northeast-2.compute.amazonaws.com:8088 (예정)
 
 <h3> 커밋 메시지 전략 </h3>
 
