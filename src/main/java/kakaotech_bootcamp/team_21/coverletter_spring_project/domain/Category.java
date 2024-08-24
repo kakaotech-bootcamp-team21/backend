@@ -43,9 +43,7 @@ public class Category {
     }
     public void addIndustryList(List<Industry> industryList) {
         for (Industry industry : industryList) {
-            industries.add(industry);
-            industry.getCategories().add(this);
-
+            addIndustry(industry);
         }
     }
     public void addParentCategory(Category category) {//이 객체에 parentCategory를 설정하면, 부모 카테고리에도 자식 카테고리를 동시에 반영.

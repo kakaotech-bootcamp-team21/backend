@@ -18,8 +18,8 @@ public class Feedback {
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "review_id")
-    private Review review;
+    @JoinColumn(name = "request_id")
+    private Request request;
 
     private LocalDateTime datetime;
 
@@ -38,12 +38,10 @@ public class Feedback {
         this.feedback = feedback;
         this.status = status;
     }
-
     // -- 연관 관계 메서드 -- //
-    public void addReview(Review review) {
-        this.review = review;
+    public void addRequest(Request request) {
+        this.request=request;
     }
-
     // -- 비즈니스 로직 -- //
 
 

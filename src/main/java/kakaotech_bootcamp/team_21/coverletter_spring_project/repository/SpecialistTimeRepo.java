@@ -4,5 +4,5 @@ package kakaotech_bootcamp.team_21.coverletter_spring_project.repository;
 import kakaotech_bootcamp.team_21.coverletter_spring_project.domain.SpecialistTime;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface SpecialistTimeRepository extends JpaRepository<SpecialistTime,Long> {
+public interface SpecialistTimeRepo extends JpaRepository<SpecialistTime,Long> {
 }

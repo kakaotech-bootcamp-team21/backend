@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import kakaotech_bootcamp.team_21.coverletter_spring_project.domain.enums.ChattingRoomType;
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Getter @Setter
 @NoArgsConstructor(access= AccessLevel.PROTECTED)
@@ -15,28 +13,25 @@ public class ChattingRoom {
     @Column(name = "chat_room_id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name="review_id")
-    private Review review;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="request_id",nullable = false)
+    private Request request;
 
-    @ManyToOne
-    @JoinColumn(name="sp_time_id")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="sp_time_id",nullable = false)
     private SpecialistTime specialistTime;
-
-    private LocalDateTime datetime;
 
     @Enumerated(EnumType.STRING)
     private ChattingRoomType type;
 
     // -- 생성자 -- //
-    public ChattingRoom(LocalDateTime datetime, ChattingRoomType type) {
-        this.datetime=datetime;
-        this.type=type;
+    public ChattingRoom(ChattingRoomType type) {
+        this.type = type;
     }
 
     // -- 연관 관계 메서드 -- //
-    public void addReview(Review review) {
-        this.review=review;
+    public void addRequest(Request request) {
+        this.request = request;
     }
     public void addSpecialistTime(SpecialistTime specialistTime) {
         this.specialistTime=specialistTime;

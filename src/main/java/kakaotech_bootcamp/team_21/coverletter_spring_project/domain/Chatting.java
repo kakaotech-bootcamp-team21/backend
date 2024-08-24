@@ -18,11 +18,11 @@ public class Chatting {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "chat_room_id")
+    @JoinColumn(name = "chat_room_id",nullable = false)
     private ChattingRoom room;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id",nullable = false)
     private User writer;
 
     private LocalDateTime datetime;
@@ -37,13 +37,11 @@ public class Chatting {
 
     // -- 연관 관계 메서드 -- //
     public void addChattingRoom(ChattingRoom chattingRoom) {
-        room = chattingRoom;
+        this.room = chattingRoom;
     }
-
     public void addWriter(User user) {
-        writer = user;
+        this.writer = user;
     }
-
     // -- 비즈니스 로직 -- //
 
 }
