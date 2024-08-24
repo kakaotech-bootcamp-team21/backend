@@ -1,7 +1,7 @@
 # backend
 
 
-<h2>주요 스택</h2>
+<h2> 주요 스택 </h2>
 
 - JAVA 17
 - (개발)H2 Database → (운영)MySQL
