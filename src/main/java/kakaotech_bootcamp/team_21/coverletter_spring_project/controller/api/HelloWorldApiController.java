@@ -1,11 +1,13 @@
 package kakaotech_bootcamp.team_21.coverletter_spring_project.controller.api;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import kakaotech_bootcamp.team_21.coverletter_spring_project.domain.testDomain.HelloWorldBean;
 import org.springframework.context.MessageSource;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Locale;
 
+@Hidden
 @RestController
 public class HelloWorldApiController {
 
