@@ -28,6 +28,8 @@ jobs:
 
     # - name: Build with Gradle
     #   run: ./gradlew build
+    - name: Set JAVA_HOME for Gradle
+      run: echo "JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java))))" >> $GITHUB_ENV
 
     - name: Run tests
       run: ./gradlew test
