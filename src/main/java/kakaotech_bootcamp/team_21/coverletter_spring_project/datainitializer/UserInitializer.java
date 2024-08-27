@@ -8,10 +8,12 @@ import kakaotech_bootcamp.team_21.coverletter_spring_project.repository.Industry
 import kakaotech_bootcamp.team_21.coverletter_spring_project.repository.SpecialistRepo;
 import kakaotech_bootcamp.team_21.coverletter_spring_project.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
+@DependsOn("categoryAndIndustryInitializer")
 @RequiredArgsConstructor
 public class UserInitializer {
 
