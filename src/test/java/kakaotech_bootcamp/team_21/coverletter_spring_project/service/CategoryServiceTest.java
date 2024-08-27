@@ -18,7 +18,7 @@ class CategoryServiceTest {
     @Test
     public void 관련산업가져오기테스트() {
 
-        Category managementAndLeadership = categoryRepo.findByName("경영 및 리더쉽");
+        Category managementAndLeadership = categoryRepo.findByName("경영 및 리더십");
         System.out.println("--- my test ---");
         for (Industry industry : managementAndLeadership.getIndustries()) {
             System.out.println(industry.getName());
