@@ -7,6 +7,8 @@ import kakaotech_bootcamp.team_21.coverletter_spring_project.dto.UserProfileDto;
 import kakaotech_bootcamp.team_21.coverletter_spring_project.dto.UserRegisterDto;
 import kakaotech_bootcamp.team_21.coverletter_spring_project.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +20,7 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepo userRepo;
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     public Optional<User> findUserById(Long userId) {
         return userRepo.findById(userId);
@@ -37,11 +40,20 @@ public class UserService {
     }
 
     public User loginUser(UserLoginDto userLoginDto) {
+        logger.info("로그인 시도: {}", userLoginDto.getEmail());
+
         User user = (User) userRepo.findByEmail(userLoginDto.getEmail())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> {
+                    logger.error("사용자 찾을 수 없음: {}", userLoginDto.getEmail());
+                    return new RuntimeException("User not found");
+                });
+
         if (!user.getPassword().equals(userLoginDto.getPassword())) {
+            logger.error("비밀번호 불일치: {}", userLoginDto.getEmail());
             throw new RuntimeException("Invalid password");
         }
+
+        logger.info("로그인 성공: {}", user.getEmail());
         return user;
     }
 
