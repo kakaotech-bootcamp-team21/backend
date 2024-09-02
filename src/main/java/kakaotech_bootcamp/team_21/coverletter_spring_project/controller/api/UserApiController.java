@@ -18,6 +18,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+
 @Tag(name = "User API", description = "유저 정보 관련 기능 제공 API")
 @RestController
 @RequiredArgsConstructor
@@ -111,13 +113,14 @@ public class UserApiController {
     @ResponseBody
     public ResponseEntity<String> loginJWT(@RequestBody UserLoginDto userLoginDto, HttpServletResponse response) {
         try {
-            // 사용자 인증
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(userLoginDto.getEmail(), userLoginDto.getPassword())
-            );
+            // 사용자 조회
+            User user = userService.loadUserByUsername(userLoginDto.getEmail()); // 이메일을 통해 사용자 조회
+            if (user == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("아이디 또는 비밀번호가 잘못되었습니다.");
+            }
 
-
-
+            // 인증 객체 생성
+            Authentication authentication = new UsernamePasswordAuthenticationToken(user, userLoginDto.getPassword(), user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             // JWT 생성
@@ -137,4 +140,32 @@ public class UserApiController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("아이디 또는 비밀번호가 잘못되었습니다.");
         }
     }
+//    public ResponseEntity<String> loginJWT(@RequestBody UserLoginDto userLoginDto, HttpServletResponse response) {
+//        try {
+//            // 사용자 인증
+//            Authentication authentication = authenticationManager.authenticate(
+//                    new UsernamePasswordAuthenticationToken(userLoginDto.getEmail(), userLoginDto.getPassword())
+//            );
+//
+//
+//
+//            SecurityContextHolder.getContext().setAuthentication(authentication);
+//
+//            // JWT 생성
+//            String jwt = jwtUtil.createToken(authentication);
+//
+//            // JWT를 쿠키로 설정
+//            Cookie cookie = new Cookie("jwt", jwt);
+//            cookie.setHttpOnly(true);
+//            cookie.setSecure(true); // HTTPS를 위해
+//            cookie.setMaxAge(3600); // 1시간
+//            cookie.setPath("/");
+//            response.addCookie(cookie);
+//
+//            // JWT를 응답 본문에도 포함
+//            return ResponseEntity.ok(jwt);
+//        } catch (AuthenticationException e) {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("아이디 또는 비밀번호가 잘못되었습니다.");
+//        }
+//    }
 }

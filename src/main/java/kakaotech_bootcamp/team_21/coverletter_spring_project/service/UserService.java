@@ -63,4 +63,9 @@ public class UserService {
         user.setProfile(userProfileDto.getProfile());
         return userRepo.save(user);
     }
+
+    public User loadUserByUsername(String email) {
+        return userRepo.findByEmail(email)
+                .orElse(null);
+    }
 }
