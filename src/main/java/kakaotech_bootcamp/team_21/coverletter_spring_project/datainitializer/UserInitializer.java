@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 @DependsOn("categoryAndIndustryInitializer")
 @RequiredArgsConstructor
-public class UserInitializer {
+public class UserInitializer{
 
     private final UserRepo userRepo;
     private final SpecialistRepo specialistRepo;

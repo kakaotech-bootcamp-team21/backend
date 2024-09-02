@@ -40,7 +40,7 @@ public class CategoryApiController {
     }
 
     @Operation(summary = "특정 카테고리 관련 산업 조회 API",description = "특정 카테고리 id를 입력하면, 관련된 산업 정보들을 반환한다.")
-    @GetMapping(value = "/api/categories/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/api/categories/{id}/industries", produces = MediaType.APPLICATION_JSON_VALUE)
     public SimpleIndustriesDto retrieveRelatedIndustries(@PathVariable("id") Long categoryId) {
 
         List<SimpleIndustryDto> bucket = new ArrayList<>();

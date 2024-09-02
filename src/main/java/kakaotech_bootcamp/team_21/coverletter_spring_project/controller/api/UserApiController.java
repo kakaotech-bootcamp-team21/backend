@@ -1,6 +1,9 @@
 package kakaotech_bootcamp.team_21.coverletter_spring_project.controller.api;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kakaotech_bootcamp.team_21.coverletter_spring_project.domain.User;
 import kakaotech_bootcamp.team_21.coverletter_spring_project.dto.UserDto;
@@ -9,6 +12,7 @@ import kakaotech_bootcamp.team_21.coverletter_spring_project.dto.UserProfileDto;
 import kakaotech_bootcamp.team_21.coverletter_spring_project.dto.UserRegisterDto;
 import kakaotech_bootcamp.team_21.coverletter_spring_project.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
