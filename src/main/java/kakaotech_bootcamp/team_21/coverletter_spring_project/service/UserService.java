@@ -1,7 +1,6 @@
 package kakaotech_bootcamp.team_21.coverletter_spring_project.service;
 
 import kakaotech_bootcamp.team_21.coverletter_spring_project.domain.User;
-import kakaotech_bootcamp.team_21.coverletter_spring_project.domain.enums.Role;
 import kakaotech_bootcamp.team_21.coverletter_spring_project.dto.UserLoginDto;
 import kakaotech_bootcamp.team_21.coverletter_spring_project.dto.UserProfileDto;
 import kakaotech_bootcamp.team_21.coverletter_spring_project.dto.UserRegisterDto;
@@ -53,7 +52,7 @@ public class UserService {
             throw new RuntimeException("Invalid password");
         }
 
-        logger.info("로그인 성공: {}", user.getEmail());
+        logger.info("로그인 성공: {}", user.getUsername());
         return user;
     }
 
@@ -63,5 +62,10 @@ public class UserService {
 
         user.setProfile(userProfileDto.getProfile());
         return userRepo.save(user);
+    }
+
+    public User loadUserByUsername(String email) {
+        return userRepo.findByEmail(email)
+                .orElse(null);
     }
 }

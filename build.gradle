@@ -60,7 +60,16 @@ dependencies {
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
+	// spring security
+	testImplementation("org.springframework.security:spring-security-test")
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	//jwt 관련
+	implementation 'io.jsonwebtoken:jjwt-api:0.12.5'
+	implementation 'io.jsonwebtoken:jjwt-gson:0.12.5'
+	implementation 'io.jsonwebtoken:jjwt-impl:0.12.5'
 
+//	안되면 해야함
+//	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.5' // Jackson을 사용하는 경우
 }
 
 clean {
