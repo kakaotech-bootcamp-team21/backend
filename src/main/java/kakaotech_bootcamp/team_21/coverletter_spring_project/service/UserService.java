@@ -1,9 +1,14 @@
 package kakaotech_bootcamp.team_21.coverletter_spring_project.service;
 
+import kakaotech_bootcamp.team_21.coverletter_spring_project.domain.Industry;
+import kakaotech_bootcamp.team_21.coverletter_spring_project.domain.Specialist;
 import kakaotech_bootcamp.team_21.coverletter_spring_project.domain.User;
+import kakaotech_bootcamp.team_21.coverletter_spring_project.domain.enums.Role;
 import kakaotech_bootcamp.team_21.coverletter_spring_project.dto.UserLoginDto;
 import kakaotech_bootcamp.team_21.coverletter_spring_project.dto.UserProfileDto;
 import kakaotech_bootcamp.team_21.coverletter_spring_project.dto.UserRegisterDto;
+import kakaotech_bootcamp.team_21.coverletter_spring_project.repository.IndustryRepo;
+import kakaotech_bootcamp.team_21.coverletter_spring_project.repository.SpecialistRepo;
 import kakaotech_bootcamp.team_21.coverletter_spring_project.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -19,6 +24,8 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepo userRepo;
+    private final SpecialistRepo specialistRepo;
+    private final IndustryRepo industryRepo;
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     public Optional<User> findUserById(Long userId) {
@@ -35,8 +42,32 @@ public class UserService {
                 userRegisterDto.getEmail(),
                 userRegisterDto.getPassword()
         );
+
+//        // 역할이 SPECIAL인지 확인
+//        if (userRegisterDto.getRole() == Role.SPECIAL) {
+//            Specialist specialist = new Specialist(); // Specialist 객체 생성
+//            // 필요한 데이터를 Specialist 객체에 설정해야 함
+//            Specialist savedSpecialist = specialistRepo.save(specialist);
+//            user.addSpecialist(savedSpecialist);
+//        }
+
+        if (userRegisterDto.getRole() == Role.SPECIAL) {
+            // 산업군 ID로 산업 정보 가져오기
+            Industry industry = industryRepo.findById(userRegisterDto.getIndustryId())
+                    .orElseThrow(() -> new RuntimeException("Industry not found"));
+            Specialist specialist = new Specialist();
+//            Specialist specialist = new Specialist("전문가 직업명"); // 필요한 직업명으로 대체
+            specialist.addIndustry(industry);  // 산업군 설정
+            Specialist savedSpecialist = specialistRepo.save(specialist);
+            user.addSpecialist(savedSpecialist);
+        }
+
+
+
+
         return userRepo.save(user);
     }
+
 
     public User loginUser(UserLoginDto userLoginDto) {
         logger.info("로그인 시도: {}", userLoginDto.getEmail());
