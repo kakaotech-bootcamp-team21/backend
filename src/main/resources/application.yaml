@@ -23,3 +23,9 @@ logging.level:
   org.hibernate.SQL: debug # logger를 통해 하이버네이트 실행 SQL을 남긴다.
 #  org.hibernate.orm.jdbc.bind: trace
 
+aws:
+  s3:
+    bucketName: coverletter-bucket
+  accessKeyId: ${AWS_ACCESS_KEY_ID}
+  secretAccessKey: ${AWS_SECRET_ACCESS_KEY}
+  region: ap-northeast-2
