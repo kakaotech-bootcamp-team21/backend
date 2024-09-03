@@ -6,7 +6,7 @@ import lombok.*;
 
 @Entity
 @Getter @Setter
-@NoArgsConstructor(access= AccessLevel.PROTECTED)
+@NoArgsConstructor(access= AccessLevel.PUBLIC)
 public class Specialist {
 
     @Id @GeneratedValue
