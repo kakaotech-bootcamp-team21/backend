@@ -13,4 +13,9 @@ public class UserRegisterDto {
     private String email;
     private String password;
     private Role role;
+
+//    인더스트리 아이디를 선택해야함
+    private Long categoryId;  // 카테고리 ID 추가
+    private Long industryId;
 }
+
