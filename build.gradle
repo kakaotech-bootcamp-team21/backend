@@ -55,6 +55,8 @@ dependencies {
 	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
 	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 
+	//aws
+	implementation 'software.amazon.awssdk:s3:+'
 
 	//추가 라이브러리
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
@@ -70,6 +72,7 @@ dependencies {
 
 //	안되면 해야함
 //	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.5' // Jackson을 사용하는 경우
+
 }
 
 clean {

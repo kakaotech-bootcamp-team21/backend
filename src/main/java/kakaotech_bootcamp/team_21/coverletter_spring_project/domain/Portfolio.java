@@ -21,21 +21,17 @@ public class Portfolio {
     @JoinColumn(name = "user_id",nullable = false)
     private User user;
 
-    @Column(nullable = false)
+    @Column
     private String portfolioTitle;
 
     @Embedded
     private UploadFile portfolio;
 
-    @Enumerated(value = EnumType.STRING)
-    @Column(nullable = false)
-    private PortfolioDocType fileType;
 
     // -- 생성자 -- //
-    public Portfolio(String portfolioTitle, UploadFile portfolio, PortfolioDocType fileType) {
+    public Portfolio(String portfolioTitle, UploadFile portfolio) {
         this.portfolioTitle = portfolioTitle;
         this.portfolio = portfolio;
-        this.fileType = fileType;
     }
 
     public void addUser(User user) {
