@@ -4,7 +4,8 @@ import kakaotech_bootcamp.team_21.coverletter_spring_project.domain.enums.S3Type
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import software.amazon.awssdk.auth.credentials.ProfileCredentialsProvider;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
@@ -26,22 +27,24 @@ public class S3Service { //AWS S3 버킷에 S3Type을 이용하여 다양한 파
     private final S3Client s3Client;
     private final S3Presigner s3Presigner;
 
-    private String bucketName;
+    private final String bucketName;
 
-    private String region;
+    private final String region;
 
     public S3Service(@Value("${aws.s3.bucketName}") String bucketName,
-                     @Value("${aws.region}") String region) {
+                     @Value("${aws.region}") String region,
+                     @Value("${aws.accessKeyId}") String accessKeyId,
+                     @Value("${aws.secretAccessKey}") String secretAccessKey) {
         this.s3Client = S3Client.builder()
                 .region(Region.of(region))
-                .credentialsProvider(ProfileCredentialsProvider.create())
+                .credentialsProvider(StaticCredentialsProvider.create(AwsBasicCredentials.create(accessKeyId, secretAccessKey)))
                 .build();
         this.s3Presigner = S3Presigner.builder()
                 .region(Region.of(region))
-                .credentialsProvider(ProfileCredentialsProvider.create())
+                .credentialsProvider(StaticCredentialsProvider.create(AwsBasicCredentials.create(accessKeyId, secretAccessKey)))
                 .build();
-        this.bucketName=bucketName;
-        this.region=region;
+        this.bucketName = bucketName;
+        this.region = region;
     }
 
     // S3에 파일 업로드
