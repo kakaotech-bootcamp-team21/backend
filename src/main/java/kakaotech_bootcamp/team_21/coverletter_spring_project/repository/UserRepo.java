@@ -13,5 +13,5 @@ public interface UserRepo extends JpaRepository<User,Long> {
     @Query("select u from User u where u.specialist.id IN :Ids")
     public List<User> findAllBySpecialistIds(@Param("Ids") List<Long> specialistIds);
 
-    Optional<Object> findByEmail(String email);
+    Optional<User> findByEmail(String email);
 }
