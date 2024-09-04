@@ -55,4 +55,8 @@ jobs:
             docker pull hanyohan/spring-backend-image:latest
             docker stop spring-backend-app || true
             docker rm spring-backend-app || true
-            docker run -d --name spring-backend-app -p 8080:8080 hanyohan/spring-backend-image:latest
+            docker run -d --name spring-backend-app -p 8080:8080 \
+              -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
+              -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
+              hanyohan/spring-backend-image:latest
+          
