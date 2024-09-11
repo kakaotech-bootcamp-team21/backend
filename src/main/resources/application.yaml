@@ -21,5 +21,11 @@ spring:
 
 logging.level:
   org.hibernate.SQL: debug # logger를 통해 하이버네이트 실행 SQL을 남긴다.
-#  org.hibernate.orm.jdbc.bind: trace
+  org.apache.coyote.http11: trace # http 요청 메시지를 로그로 확인 할 수 있다.(개발 시에만 활용해야 한다.)
 
+aws:
+  s3:
+    bucketName: coverletter-bucket
+  accessKeyId: ${AWS_ACCESS_KEY_ID}
+  secretAccessKey: ${AWS_SECRET_ACCESS_KEY}
+  region: ap-northeast-2
