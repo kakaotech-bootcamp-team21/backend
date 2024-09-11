@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 
+
+
 @Tag(name = "User API", description = "유저 정보 관련 기능 제공 API")
 @RestController
 @RequiredArgsConstructor
@@ -28,6 +30,12 @@ public class UserApiController {
     private final UserService userService;
     private final JwtUtil jwtUtil;
     private final AuthenticationManager authenticationManager; // AuthenticationManager 주입
+
+    @Operation(summary = "https healtch check API", description = "aws 에서 ssl 인증서를 발급받기 위해 상태확인을 하는데 사용하는 api 입니다. 인스턴스가 연결되어있어 자동으로 확인을 합니다.")
+    @GetMapping("/healthcheck")
+    public String healthcheck() {
+        return "OK";
+    }
 
     @Operation(summary = "유저 정보 조회 API", description = "특정 유저 ID를 입력하면, 해당 유저의 정보를 반환합니다.")
     @GetMapping("/api/users/{id}")
@@ -107,6 +115,7 @@ public class UserApiController {
                 updatedUser.getPassword() // 테스트 환경이므로 패스워드 포함
         ));
     }
+
 
     @Operation(summary = "JWT 테스트 API", description = "토큰을 생성하고 확인하기 위한 API")
     @PostMapping("/login/jwt")
