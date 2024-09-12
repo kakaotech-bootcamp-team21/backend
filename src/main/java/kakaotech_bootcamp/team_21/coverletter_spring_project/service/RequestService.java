@@ -20,16 +20,35 @@ public class RequestService {
 
     private final RequestRepo requestRepo;
 
-    public Request createRequestTypeOfAiMake(CoverLetter coverLetter, Portfolio portfolio, RequestType type, User reqUser,User resUser) {
+    public Request createRequestTypeOfAiMake(CoverLetter coverLetter, Portfolio portfolio,User reqUser) {
 
-        Request request=new Request(LocalDateTime.now(),type);
+        Request request=new Request(LocalDateTime.now(),RequestType.AI_MAKE);
 
         request.addCoverLetter(coverLetter);
         request.addPortfolio(portfolio);
         request.addReqUser(reqUser);
+
+        return requestRepo.save(request);
+    }
+
+    public Request createRequestTypeOfAiUpgrade(CoverLetter coverLetter, User reqUser) {
+
+        Request request = new Request(LocalDateTime.now(), RequestType.AI_UPGRADE);
+
+        request.addCoverLetter(coverLetter);
+        request.addReqUser(reqUser);
+
+        return requestRepo.save(request);
+    }
+
+    public Request createRequestTypeOfBasic(CoverLetter coverLetter, RequestType requestType, User reqUser, User resUser) {
+
+        Request request = new Request(LocalDateTime.now(), requestType);
+
+        request.addCoverLetter(coverLetter);
+        request.addReqUser(reqUser);
         request.addResUser(resUser);
 
-        Request save = requestRepo.save(request);
-        return save;
+        return requestRepo.save(request);
     }
 }

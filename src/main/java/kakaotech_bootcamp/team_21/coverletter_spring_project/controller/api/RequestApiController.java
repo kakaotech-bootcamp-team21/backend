@@ -16,6 +16,7 @@ import kakaotech_bootcamp.team_21.coverletter_spring_project.service.PortfolioSe
 import kakaotech_bootcamp.team_21.coverletter_spring_project.service.RequestService;
 import kakaotech_bootcamp.team_21.coverletter_spring_project.service.S3Service;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
+@Slf4j
 @Tag(name = "첨삭요청 API", description = "첨삭요청 관련 기능 제공 API")
 @RestController
 @RequestMapping("/api/requests")
@@ -38,10 +40,10 @@ public class RequestApiController {
     private final RequestService requestService;
 
     @Operation(summary = "AI_MAKE 유형 첨삭 요청 생성 API",description = "AI_MAKE 유형의 첨삭요청을 생성한다.")
-    @PostMapping(value = "/ai_make",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/ai_make",consumes = MediaType.MULTIPART_FORM_DATA_VALUE,produces=MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createRequestTypeOfAiMake(@Parameter(description = "포트폴리오는 1개만 첨부 가능.") @RequestPart(required = false) MultipartFile file,
                                                     @RequestParam Long userId,
-                                                    @Parameter(description = "ex) [ { \"question\": \"string\", \"answer\": \"string\" } , ]") @RequestPart(name="questionItems",required = false) List<String> questions) throws IOException {
+                                                    @Parameter(description = "ex) [ \"string1\", \"string2\", ]") @RequestPart(name="questions",required = false) List<String> questions) throws IOException {
 
         try {
             CoverLetter coverLetter = coverLetterService.createAiMakeCoverLetter(null, userId, questions);
@@ -51,18 +53,18 @@ public class RequestApiController {
             }
             User reqUser = userRepo.findById(userId).get();
 
-            Request save = requestService.createRequestTypeOfAiMake(coverLetter, portfolio, RequestType.AI_MAKE, reqUser, null);
+            Request save = requestService.createRequestTypeOfAiMake(coverLetter, portfolio,reqUser);
             return new ResponseEntity(HttpStatus.OK);
 
         } catch (Exception ex) {
-            ex.printStackTrace();
-            return new ResponseEntity("error occured at <createCoverletterTypeOfAiUpgrade> ",HttpStatus.INTERNAL_SERVER_ERROR);
+            log.debug(ex.getMessage());
+            return new ResponseEntity(ex.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }
 
     @Operation(summary = "AI_UPGRADE 유형 첨삭 요청 생성 API",description = "AI_UPGRADE 유형의 첨삭요청을 생성한다.")
-    @PostMapping(value = "/ai_upgrade",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/ai_upgrade",consumes = MediaType.MULTIPART_FORM_DATA_VALUE,produces=MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createRequestTypeOfAiUpgrade(@Parameter(description = "자기소개서는 1개만 첨부 가능.") @RequestPart(required = false) MultipartFile file,
                                                        @RequestParam Long userId,
                                                        @Parameter(description = "ex) [ { \"question\": \"string\", \"answer\": \"string\" } , ]") @RequestPart(name="questionItems",required = false) List<QuestionItemDto> itemsDto) throws IOException {
@@ -72,12 +74,12 @@ public class RequestApiController {
 
             User reqUser = userRepo.findById(userId).get();
 
-            Request save = requestService.createRequestTypeOfAiMake(coverLetter, null, RequestType.AI_UPGRADE, reqUser, null);
+            Request save = requestService.createRequestTypeOfAiUpgrade(coverLetter,reqUser);
             return new ResponseEntity(HttpStatus.OK);
 
         } catch (Exception ex) {
-            ex.printStackTrace();
-            return new ResponseEntity("error occured at <createRequestTypeOfAiUpgrade> ",HttpStatus.INTERNAL_SERVER_ERROR);
+            log.debug(ex.getMessage());
+            return new ResponseEntity(ex.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
 
@@ -85,26 +87,30 @@ public class RequestApiController {
 
 
     @Operation(summary = "BASIC 유형 첨삭 요청 생성 API",description = "BASIC(일반,채팅,영상채팅용) 유형의 첨삭요청을 생성한다.")
-    @PostMapping(value = "/basic",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/basic",consumes = MediaType.MULTIPART_FORM_DATA_VALUE,produces=MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createRequestTypeOfBasic(@Parameter(description = "자기소개서는 1개만 첨부 가능.") @RequestPart(required = false) MultipartFile file,
                                                    @RequestParam Long reqUserId,
                                                    @RequestParam Long resUserId,
-                                                   @RequestParam String requestType,
+                                                   @Parameter(description ="ex) BASIC,CHAT,VIDEO")@RequestParam String requestType,
                                                    @Parameter(description = "ex) [ { \"question\": \"string\", \"answer\": \"string\" } , ]") @RequestPart(name="questionItems",required = false) List<QuestionItemDto> itemsDto) throws IOException {
 
 
         try {
-            CoverLetter coverLetter = coverLetterService.createAiUpgradeOrBasicCoverLetter(file,reqUserId,itemsDto,CoverLetterType.AI_UPGRADE);
+            CoverLetter coverLetter = coverLetterService.createAiUpgradeOrBasicCoverLetter(file,reqUserId,itemsDto,CoverLetterType.BASIC);
 
             User reqUser = userRepo.findById(reqUserId).get();
             User resUser = userRepo.findById(resUserId).get();
 
-            Request save = requestService.createRequestTypeOfAiMake(coverLetter, null, RequestType.valueOf(requestType.toUpperCase()), reqUser, resUser);
+            if (resUser==null || reqUser==null) {
+               throw new RuntimeException("no reqUser or resUser");
+            }
+
+            Request save = requestService.createRequestTypeOfBasic(coverLetter,RequestType.valueOf(requestType.toUpperCase()),reqUser,resUser);
             return new ResponseEntity(HttpStatus.OK);
 
         } catch (Exception ex) {
-            ex.printStackTrace();
-            return new ResponseEntity("error occured at <createRequestTypeOfAiUpgrade> ",HttpStatus.INTERNAL_SERVER_ERROR);
+            log.debug(ex.getMessage());
+            return new ResponseEntity(ex.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
